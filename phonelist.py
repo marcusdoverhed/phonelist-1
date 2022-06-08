@@ -8,7 +8,7 @@ conn = psycopg2.connect(
            password="abc123"
        )
 
-the_list = []
+
 print("-----Hello and welcome to the phonelist-----")
 
 commands = [
@@ -29,11 +29,12 @@ def add_phone(C, name, phone):
     cur = C.cursor()
     cur.execute(f"INSERT INTO phonelist VALUES ('{name}', '{phone}');")
     cur.close()
+    print("Phone added")
 def delete_phone(C, name):
     cur = C.cursor()
     cur.execute(f"DELETE FROM phonelist WHERE name = '{name}';")
     cur.close()
-    print("phone deleted")
+    print("Phone deleted")
 def save_phonelist(C):
     cur = C.cursor()
     try:
@@ -56,3 +57,7 @@ while True: ## REPL - Read Execute Program Loop
     elif cmd == "QUIT":
         save_phonelist(conn)
         exit()
+    else:
+        print("please use a valid command")
+        for x in commands:
+            print(x)
