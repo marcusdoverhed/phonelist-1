@@ -8,7 +8,16 @@ conn = psycopg2.connect(
            password="abc123"
        )
 
+the_list = []
+print("-----Hello and welcome to the phonelist-----")
 
+commands = [
+    'ADD: Add a name to the list',
+    'LIST: Print the list of names',
+    'DELETE: Delete a name from the list',
+    'QUIT: End the program']
+for x in commands:
+    print(x)
 
 def read_phonelist(C):
     cur = C.cursor()
@@ -24,6 +33,7 @@ def delete_phone(C, name):
     cur = C.cursor()
     cur.execute(f"DELETE FROM phonelist WHERE name = '{name}';")
     cur.close()
+    print("phone deleted")
 def save_phonelist(C):
     cur = C.cursor()
     try:
@@ -33,15 +43,15 @@ def save_phonelist(C):
     cur.close()
 
 while True: ## REPL - Read Execute Program Loop
-    cmd = input("Command: ")
+    cmd = input("Command: ").strip().upper()
     if cmd == "LIST":
         print(read_phonelist(conn))
     elif cmd == "ADD":
-        name = input("  Name: ")
-        phone = input("  Phone: ")
+        name = input("  Name: ").strip().title()
+        phone = input("  Phone: ").strip().title()
         add_phone(conn, name, phone)
     elif cmd == "DELETE":
-        name = input("  Name: ")
+        name = input("  Name: ").strip().title()
         delete_phone(conn, name)
     elif cmd == "QUIT":
         save_phonelist(conn)
